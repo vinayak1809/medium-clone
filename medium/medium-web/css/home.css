@@ -1,0 +1,140 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  overflow-x: hidden;
+}
+.navbar,
+.web-name,
+.options ul,
+.head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.navbar {
+  position: fixed;
+  z-index: 3;
+  justify-content: space-between;
+  width: 100%;
+  height: 80px;
+  padding: 0 80px;
+  background-color: rgb(162, 210, 230);
+  border-bottom: 1px solid black;
+}
+.navbar .web-name span {
+  font-size: 30px;
+  font-weight: bold;
+}
+.navbar .web-name {
+  font-size: x-large;
+}
+.options ul {
+  list-style: none;
+  justify-content: space-evenly;
+}
+.options ul li {
+  margin: 10px;
+}
+
+button {
+  padding: 10px;
+  background-color: black;
+  color: white;
+  width: 100px;
+  border-radius: 30px;
+}
+
+/* header section */
+
+header .head {
+  display: flex;
+  width: 100%;
+  background-color: rgb(162, 210, 230);
+  height: 550px;
+  padding: 0px 70px;
+}
+.head .left-heading {
+  position: absolute;
+  font-size: 20px;
+  width: 500px;
+  height: 55vh;
+  font-size: x-large;
+  padding: 0px;
+}
+.head .left-heading .left1 {
+  font-size: xx-large;
+  overflow: hidden;
+  text-overflow: clip;
+  display: block;
+}
+.head .left2 {
+  font-size: 1.2rem;
+}
+.head .left1,
+.head .left2,
+.head .left3 {
+  margin: 10px;
+}
+.head .right-heading {
+  position: absolute;
+  width: 50vw;
+  height: 55vh;
+  margin: 50vw;
+  padding: 50px 0px 0px;
+}
+.head .right-heading img {
+  width: 400px;
+  height: 400px;
+}
+
+/* main section */
+
+.trend {
+  display: flex;
+  margin: 40px 0px 0px 70px;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.trending-flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding: 0px 70px;
+  margin-bottom: 50px;
+}
+.tflex {
+  background-color: blue;
+  margin: 20px;
+  width: 360px;
+  height: 200px;
+}
+
+/* discover sectin */
+
+.blogread-discover {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 50px;
+}
+
+.blog {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+  background-color: cadetblue;
+  width: 60%;
+  height: 150px;
+}
+
+.blogs {
+  width: 70%;
+  background-color: chartreuse;
+}
