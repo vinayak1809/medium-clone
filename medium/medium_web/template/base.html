@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/static/base.css">
     <title>Medium</title>
 </head>
 <body>
@@ -22,7 +22,7 @@
                 <li class="option option1">Our Story</li>
                 <li class="option option2">Membership</li>
                 <li class="option option3">Write</li>
-                <li class="option option4">Sign In</li>
+                <a href="/login"><li class="option option4">Sign In</li></a>
                 <li class="option option5"><button> Get started</button></li>
             </ul>
         </div>
@@ -41,7 +41,7 @@
                 </div>          
             </div>
             <div class="right-heading">
-                <img src="/image/4_home.png" alt="">
+                <img src="/static/image/4_home.png" alt="">
             </div>
         </div>
     </header>
@@ -52,16 +52,29 @@
                 <p>Trending on Medium</p>
             </div>
             <div class="trending-flex">
-                <div class="tflex tflex1"><h3>Author name</h3><p>description</p><span>date</span></div>
-                <div class="tflex tflex2"><h3>Author name</h3><p>description</p><span>date</span></div>
-                <div class="tflex tflex3"><h3>Author name</h3><p>description</p><span>date</span></div>
-                <div class="tflex tflex4"><h3>Author name</h3><p>description</p><span>date</span></div>
-                <div class="tflex tflex5"><h3>Author name</h3><p>description</p><span>date</span></div>
-                <div class="tflex tflex6"><h3>Author name</h3><p>description</p><span>date</span></div>
+                {% for post in posts %}
+                        
+                <div class="tflex tflex1">
+                    <h3>{% for i in user_info_author%}   
+                        {% if i[0] == post[5] %}
+                            {{ i[3]}}
+                        {% endif %}
+                     {% endfor %}</h3>
+                    <p>{{post[1]}}</p>
+                    <span>date</span>
+
+                </div>
+              
+                {% endfor %}
             </div>
     </main>
     <hr>
+
     <section class="blogread-discover">
+        <div class="blogread">
+        {% for post in posts %}
+        {{post[0]}}
+        
         <div class="blog">
             <div class="blogs">
                 <h2>Author name</h2>
@@ -74,11 +87,15 @@
                 img
             </div>
         </div>
-        <div class="sec">
-            <div class="discover">
-                relationship
-            </div>
+        
+        {% endfor %}
         </div>
+    
+    <div class="sec">
+        <div class="discover">
+            relationship
+        </div>
+    </div>
     </section>
     <!-- header section end -->
 </body>

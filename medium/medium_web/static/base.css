@@ -109,10 +109,10 @@ header .head {
   margin-bottom: 50px;
 }
 .tflex {
-  background-color: blue;
+  background-color: chartreuse;
   margin: 20px;
   width: 360px;
-  height: 200px;
+  height: 150px;
 }
 
 /* discover sectin */
@@ -120,21 +120,42 @@ header .head {
 .blogread-discover {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin: 50px;
+  width: 100%;
+  margin: 50px 70px;
+}
+.blogread {
+  display: flex;
+  flex-direction: column;
+  width: 55%;
+  margin-right: 70px;
+  background-color: cadetblue;
 }
 
 .blog {
   display: flex;
+  position: relative;
   flex-direction: row;
-  justify-content: space-between;
-  gap: 10px;
+  width: 600px;
   background-color: cadetblue;
-  width: 60%;
-  height: 150px;
+  height: 200px;
 }
 
 .blogs {
-  width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: cadetblue;
+  width: 100%;
+  height: 150px;
   background-color: chartreuse;
+}
+
+.sec {
+  background-color: burlywood;
+  height: 500px;
+  width: 30%;
+  padding-top: 200px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
 }
