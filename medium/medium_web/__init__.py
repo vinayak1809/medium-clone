@@ -16,8 +16,10 @@ def create_app():
     app.jinja_env.add_extension("jinja2.ext.loopcontrols")
 
     from .auth import auth
+    from .view import view
 
     auth = app.register_blueprint(auth, url_prefix="/")
+    view = app.register_blueprint(view, url_prefix="/")
 
     return app
 

@@ -1,0 +1,97 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 17px 40px;
+  width: 100%;
+  position: fixed;
+  align-items: center;
+  background-color: white;
+}
+
+.icon-username,
+.options {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.options {
+  color: grey;
+}
+.user button {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: rgb(7, 7, 128);
+  color: white;
+  border: none;
+}
+/* main section */
+main {
+  width: 100%;
+  padding-top: 80px;
+}
+.main-sec {
+  width: 600px;
+  margin: auto;
+}
+
+.main-sec textarea {
+  width: 600px;
+  resize: none;
+  margin-bottom: 10px;
+  padding: 10px 10px 0px 10px;
+  height: 60px;
+  border: none;
+  border-left: 1px solid rgba(0, 0, 0, 0.233);
+  outline: none;
+  white-space: pre-wrap;
+}
+.main-sec .title textarea {
+  font-size: 1.5rem;
+}
+.main-sec .description textarea {
+  font-size: 1rem;
+  flex-grow: 0;
+  overflow: hidden;
+}
+
+.main-sec .info textarea {
+  font-size: 1rem;
+}
+.main-sec .image button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid rgb(175, 171, 171);
+}
+.publish button {
+  width: 60px;
+  height: 30px;
+  border-radius: 12px;
+  background-color: rgb(58, 167, 58);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.imag {
+  background: rgb(253, 253, 253);
+  border: 1px;
+  border-radius: 50px;
+  margin: 0px 540px 0px 0px;
+  color: rgba(2, 2, 2, 0.295);
+  font-family: sans-serif;
+  font-size: 50px;
+  height: 50px;
+  box-shadow: 0 4px 12px 0 rgb(0 0 0 / 5%);
+}

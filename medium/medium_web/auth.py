@@ -3,25 +3,67 @@ from flask.helpers import url_for
 from werkzeug.utils import redirect
 from medium_web import mysql
 
+from base64 import b64encode
+
 auth = Blueprint("auth", __name__, template_folder="template")
 
 
-@auth.route("/")
-@auth.route("/", methods=["GET", "POST"])
-def me():
+@auth.route("/<user_id>", methods=["GET", "POST"])
+def home(user_id):
 
     cursorr = mysql.connection.cursor()
     cursorr.execute("Select * FROM postt")
     posts = cursorr.fetchall()
 
+    # image = b64encode(post_img).decode("utf-8")
+
     cursorr.execute("select * from User")
     user_info_author = cursorr.fetchall()
+
     if "id" in session:
         return render_template(
-            "home.html", posts=posts, user_info_author=user_info_author
+            "home.html",
+            posts=posts,
+            user_info_author=user_info_author,
+            id=user_id,
         )
 
-    return render_template("base.html", posts=posts, user_info_author=user_info_author)
+    else:
+        return redirect(url_for("auth.base"))
+
+
+@auth.route("/", methods=["GET", "POST"])
+def base():
+    if "id" not in session:
+        cursorr = mysql.connection.cursor()
+        cursorr.execute("Select * FROM postt")
+        posts = cursorr.fetchall()
+
+        li = [
+            "Self",
+            "Relationship",
+            "Data Science",
+            "Programming",
+            "Productivity",
+            "Javascript",
+            "sports",
+            "tech",
+            "python",
+            "stress",
+            "Politics",
+            "Health",
+        ]
+
+        img = [b64encode(posts[i][6]).decode("utf-8") for i in range(0, 6)]
+
+        cursorr.execute("select * from User")
+        user_info_author = cursorr.fetchall()
+        return render_template(
+            "base.html", posts=posts, user_info_author=user_info_author, img=img, li=li
+        )
+
+    else:
+        return redirect(url_for("auth.home", user_id=session["id"]))
 
 
 @auth.route("/login", methods=["GET", "POST"])
@@ -42,8 +84,15 @@ def login():
             mysql.connection.commit()
             cur.close()
 
-        return redirect(url_for("auth.me"))
+        return redirect(url_for("auth.home", user_id=id))
     return render_template("login.html")
+
+
+@auth.route("/signout")
+def signout():
+    if "id" in session:
+        session.pop("id", None)
+    return redirect(url_for("auth.base"))
 
 
 # @auth.route("/")

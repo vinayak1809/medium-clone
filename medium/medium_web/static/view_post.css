@@ -1,0 +1,164 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+
+.nav {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: white;
+  width: 97%;
+  padding: 20px 20px 20px 20px;
+  box-shadow: 0 4px 12px 0 rgb(0 0 0 / 5%);
+  font-size: 17px;
+  font-family: "Anton", sans-serif;
+}
+
+.nav_left {
+  width: 50%;
+  float: left;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.nav_right {
+  width: 50%;
+  float: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.nav_right :hover {
+  background-color: rgb(210, 198, 30);
+}
+.option {
+  padding: 5px 20px;
+  margin: 1px 20px;
+  border-style: solid;
+  border-width: 1px;
+  color: rgb(25, 76, 105);
+  border-color: blanchedalmond;
+  background-color: blanchedalmond;
+  border-radius: 50px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px 0 rgb(0 0 0 / 20%);
+}
+
+main {
+  margin: 150px 350px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px 0 rgb(0 0 0 / 5%);
+}
+
+.title {
+  display: inline-flex;
+  flex-grow: 1;
+  font-size: 45px;
+  font-family: "Anton", sans-serif;
+}
+
+.desc {
+  display: inline-flex;
+  flex-grow: 0;
+  font-size: 18px;
+  color: grey;
+}
+
+.imag {
+  display: inline-flex;
+  justify-content: center;
+  width: 500px;
+  height: 350px;
+  object-fit: cover;
+  margin: auto;
+
+  object-position: 15% 100%;
+}
+
+.info {
+  display: inline-flex;
+  margin-top: 20px;
+  flex-grow: 5;
+}
+
+.blog_user {
+  display: inline-flex;
+  flex-grow: 2;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.date_button {
+  flex-grow: 1;
+}
+
+.delete,
+.date_button {
+  margin: 2px;
+  color: black;
+}
+.like {
+  margin: 2px 2px 2px 0px;
+  color: black;
+}
+.like_count {
+  margin: 2px 1px 0px 5px;
+}
+.date_button {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-left: 500px;
+}
+form {
+  flex-grow: 1;
+  margin: 50px 10px;
+}
+input {
+  border-radius: 10px;
+  padding: 5px;
+  border: 1px black;
+  box-shadow: 0 4px 12px 0 rgb(0 0 0 / 10%);
+}
+.cmmt_btn {
+  border-radius: 10px;
+  border: 1px black;
+  background-color: white;
+  padding: 5px;
+  box-shadow: 0 4px 12px 0 rgb(0 0 0 / 10%);
+}
+.view_cmmt {
+  background-color: rgba(0, 0, 0, 0.815);
+  margin: 3px 10px;
+  padding: 0px 5px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 250px;
+  border-radius: 15px;
+  color: white;
+  box-shadow: 0 4px 12px 0 rgb(0 0 0 / 20%);
+}
+.view_cmmt1 {
+  margin: 5px 0px 0px;
+  height: 25px;
+}
+a {
+  display: flex;
+}
+.delete_icon:hover {
+  width: 50px;
+  height: 50px;
+}
+.delete_icon {
+  width: 10px;
+  margin: 0px 0px 0px 230px;
+  text-decoration: none;
+  color: black;
+}
+
+.view_cmmt2 {
+  margin: 0px 20px 5px 0px;
+  display: inline-flex;
+  justify-content: flex-end;
+}

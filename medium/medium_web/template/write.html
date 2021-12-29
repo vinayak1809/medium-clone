@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+    <link rel="stylesheet" href="../static/write.css">
+    <title>Editing story</title>
+</head>
+<body>
+    <!-- navbar section -->
+    <nav>
+        <div class="navbar">
+            <div class="icon-username">
+                <div><span class="material-icons">animation</span></div>
+                <div>Draft</div>
+            </div>
+            <div class="options">
+<!--                 
+                <div class="option publish">
+                    <a href="#"><button type="submit">Publish</button></a>
+                </div> -->
+                <div class="option more"><span class="material-icons">
+                    more_horiz
+                    </span></div>
+                <div class="option notificatin"><span class="material-icons">
+                    notifications
+                    </span></div>
+                <div class="option user"><button>V</button></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- main Section -->
+    <main>
+        <div class="main-sec">
+            <form action="/write_blog" method="POST" enctype="multipart/form-data">
+                <div class="option title"><textarea name="title" id="" placeholder="Title" required></textarea></div>
+                <div class="option description"><textarea name="description" id="" placeholder="Describe your story.." required></textarea></div>
+                <div class="option info"><textarea wrap="on" name="info" id="body" placeholder="Tell us your story.." required></textarea></div>
+                <div class="option imag">
+                    <input type="file" class="upload" name="image" required/>
+                </div>
+
+                <div class="option publish"><a href="#"><button type="submit">Publish</button></a></div>
+            </form>
+        </div>
+    </main>
+    <script type="text/javascript">
+        textarea = document.querySelector("#body"); 
+        textarea.addEventListener('input', autoResize, false); 
+      
+        function autoResize() { 
+            this.style.height = 'auto'; 
+            this.style.height = this.scrollHeight + 'px'; 
+        }
+    </script>
+      
+      
+</body>
+</html>

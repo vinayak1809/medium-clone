@@ -21,7 +21,7 @@
             <ul>
                 <li class="option option1">Our Story</li>
                 <li class="option option2">Membership</li>
-                <li class="option option3">Write</li>
+                <a href="/write_blog"><li class="option option3">Write</li></a>
                 <a href="/login"><li class="option option4">Sign In</li></a>
                 <li class="option option5"><button> Get started</button></li>
             </ul>
@@ -53,49 +53,90 @@
             </div>
             <div class="trending-flex">
                 {% for post in posts %}
-                        
+                {% if loop.index0 == 6 %}
+                {%break%}
+                {%endif%} 
+                
                 <div class="tflex tflex1">
-                    <h3>{% for i in user_info_author%}   
-                        {% if i[0] == post[5] %}
-                            {{ i[3]}}
-                        {% endif %}
-                     {% endfor %}</h3>
-                    <p>{{post[1]}}</p>
-                    <span>date</span>
-
+                    <div class="tflex-left">{{loop.index}}</div>
+                    <div class="tflex-right">
+                        <div class="author">{% for i in user_info_author%}   
+                            {% if i[0] == post[5] %}
+                                {{ i[3]}}
+                            {% endif %}
+                        {% endfor %}</div>
+                        <div class="title"><p>{{post[1]}}</p></div>
+                        <span>{{post[7]}}</span>
+                    </div>
                 </div>
               
                 {% endfor %}
             </div>
     </main>
-    <hr>
+    <hr class="hrcss">
 
     <section class="blogread-discover">
+
+        <div class="sec">
+            <div class="discover">
+               <p style="font-size: 16px;"> DISCOVER MORE OF WHAT MATTERS TO YOU </p>
+               <div class="tags"> 
+                   {% for i in li %}
+                   <button>{{i}}</button>
+                   {%endfor%}
+                   
+               </div>
+               <hr class="foot_hr">
+               <div class="foot">
+                   <ul>
+                   <li>Help</li>
+                   <li>Status</li>
+                   <li>Writers</li>
+                   <li>Blog</li>
+                   <li>Careers</li>
+                   <li>Privacy</li>
+                   <li>Terms</li>
+                   <li>About</li></ul>
+               </div>
+            </div>
+        </div>
         <div class="blogread">
         {% for post in posts %}
-        {{post[0]}}
         
         <div class="blog">
             <div class="blogs">
-                <h2>Author name</h2>
-                <h6>Blog name</h6>
-                <p>description</p>
-                <p>date</p>
+                <div class="author">{% for i in user_info_author%}   
+                    {% if i[0] == post[5] %}
+                        {{ i[3]}}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <a target="_blank" href="/view_post/{{post[1]}}"><div class="title"><p>{{post[1]}}</p></div></a>
+                <div class="desc">{{post[2]}}</div>
+                <div class="more">
+                    
+                    <div class="blog_more blog_more_left ">
+                        <span>{{post[7]}}</span>
+                        <span>8 min read</span>
+                        <span>tag</span>
+                    </div>
+                    <div class="blog_more_sec blog_more_right">
+                        <span class="material-icons">
+                            bookmark
+                            </span>
+                    </div>
+                </div>
             </div>
-            <div class="blog-img">
-                <img src="" alt="">
-                img
+            <div class="blog-image">
+                
+                <img class="blog-img" src="data:;base64,{{img[loop.index0]}}" alt="image">
+                
             </div>
         </div>
         
         {% endfor %}
         </div>
     
-    <div class="sec">
-        <div class="discover">
-            relationship
-        </div>
-    </div>
     </section>
     <!-- header section end -->
 </body>

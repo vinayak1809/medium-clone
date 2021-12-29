@@ -15,9 +15,9 @@ nav {
   position: fixed;
   background-color: white;
   height: 100%;
-
+  width: 70px;
   flex-grow: 1;
-  border-right: 1px solid black;
+  border-right: 1px solid rgba(0, 0, 0, 0.062);
 }
 .navbar {
   display: flex;
@@ -35,12 +35,19 @@ nav {
 .navbar ul li {
   margin: 30px 0px;
 }
-.navbar button {
+.navbar .user_button button {
   margin-top: 100px;
   border-radius: 50%;
   width: 40px;
   height: 40px;
 }
+.navbar .user_button .a {
+  display: none;
+}
+.navbar .user_button button:hover .a {
+  display: block;
+}
+
 /* main section */
 main {
   padding: 50px 100px 0px 120px;

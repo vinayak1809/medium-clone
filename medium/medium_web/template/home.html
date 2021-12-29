@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/home.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
     rel="stylesheet">
-    <title>Base(after login)</title>
+    <title>Home(After login)</title>
 </head>
 <body>
     <section class="whole-section">
@@ -19,9 +19,13 @@
                 <li><span class="material-icons">notifications</span></li>
                 <li><span class="material-icons">bookmarks</span></li>
                 <li><span class="material-icons">auto_stories</span></li>
-                <li><span class="material-icons">edit_note</span></li>
+                <a href="/write_blog"><li><span class="material-icons">edit_note</span></li></a>
             </ul>
-            <button>p</button>
+            <div class="user_button">
+                <div class="a"><a href="/signout">signout</a></div>
+                <button>p</button>
+            </div>
+            
         </div>
     </nav>
     <main>
