@@ -45,10 +45,12 @@
 }
 
 main {
-  margin: 150px 350px;
+  margin: auto;
   display: flex;
   flex-direction: column;
   box-shadow: 0 4px 12px 0 rgb(0 0 0 / 5%);
+  width: 700px;
+  word-wrap: break-word;
 }
 
 .title {
@@ -68,20 +70,27 @@ main {
 .imag {
   display: inline-flex;
   justify-content: center;
-  width: 500px;
+  width: 100%;
   height: 350px;
   object-fit: cover;
   margin: auto;
-
   object-position: 15% 100%;
 }
 
 .info {
   display: inline-flex;
   margin-top: 20px;
+  text-align: justify;
+  width: 100%;
   flex-grow: 5;
+  overflow: auto;
+  font-size: 20px;
+  white-space: pre-wrap;
+  text-overflow: ellipsis;
 }
-
+pre {
+  text-overflow: clip;
+}
 .blog_user {
   display: inline-flex;
   flex-grow: 2;

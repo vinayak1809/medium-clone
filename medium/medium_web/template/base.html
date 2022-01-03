@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="/static/image/logo.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
     <link rel="stylesheet" href="/static/base.css">
@@ -120,17 +122,39 @@
                         <span>8 min read</span>
                         <span>tag</span>
                     </div>
-                    <div class="blog_more_sec blog_more_right">
-                        <span class="material-icons">
+                  
+                    {%if post[0] in li %}   
+                        <a href="/like_post/{{post[0]}}">
+                          <div class="blog_more_sec blog_more_right">
+                              <span class="material-icons">
                             bookmark
                             </span>
-                    </div>
+                        </div>
+                        </a>
+                    {% else %}
+                        <a href="/like_post/{{post[0]}}">
+                          <div class="blog_more_sec blog_more_right">
+                              <span class="material-icons">
+                            bookmark_border
+                            </span>
+                        </div>
+                      </a>
+                    {% endif %}
                 </div>
             </div>
             <div class="blog-image">
-                
-                <img class="blog-img" src="data:;base64,{{img[loop.index0]}}" alt="image">
-                
+            
+                {%for a,b in img_dic.items()%}
+                {% if b %}
+                    {%if post[0] == a%}
+                    
+                    <img class="blog-img" src="data:;base64,{{b}}" alt="image">
+                    {%endif%}
+                {%else%}
+                    image not found
+                {%endif%}
+                {%endfor%}
+
             </div>
         </div>
         

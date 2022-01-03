@@ -23,7 +23,7 @@ body {
   width: 100%;
   height: 80px;
   padding: 0 80px;
-  background-color: rgb(162, 210, 230);
+  background-color: #ffc017;
   border-bottom: 1px solid black;
 }
 .navbar .web-name span {
@@ -58,7 +58,7 @@ button {
 header .head {
   display: flex;
   width: 100%;
-  background-color: rgb(162, 210, 230);
+  background-color: #ffc017;
   height: 550px;
   padding: 0px 70px;
   border-bottom: 1px solid black;
@@ -104,11 +104,20 @@ main {
 .trend {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   font-size: 16px;
   margin-bottom: 10px;
 }
-
+.trend span {
+  border: 1px solid grey;
+  border-radius: 50%;
+  color: grey;
+}
+.trend p {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
 .trending-flex {
   display: flex;
   flex-direction: row;
@@ -147,7 +156,7 @@ main {
 }
 .hrcss {
   border: 1px solid rgb(202, 194, 194);
-  width: 85vw;
+  width: 100%;
   margin: 0px auto auto auto;
 }
 /* discover sectin */
@@ -158,6 +167,7 @@ main {
   width: 100%;
   margin: 50px 70px;
 }
+/* right side of blog read discover */
 .sec {
   background-color: white;
   height: 500px;
@@ -167,6 +177,8 @@ main {
   top: 110px;
   right: 0px;
   order: 2;
+
+  margin-bottom: 30px;
 }
 .tags {
   margin: 30px 50px 30px 0px;
@@ -178,7 +190,7 @@ main {
 }
 .tags button {
   background-color: white;
-  color: grey;
+  color: gray;
   border-radius: 5%;
   border: 1px solid rgb(206, 200, 200);
   padding: 7px 14px;
@@ -196,7 +208,7 @@ main {
   flex-direction: row;
   list-style-type: none;
   flex-wrap: wrap;
-  color: grey;
+  color: gray;
   gap: 20px;
 }
 /* blogread section (left side of discover) */
@@ -213,7 +225,7 @@ main {
   display: flex;
   position: relative;
   flex-direction: row;
-  width: 700px;
+  width: 100%;
   height: 200px;
   margin: auto;
 }
@@ -264,4 +276,20 @@ main {
   width: 200px;
   height: 150px;
   object-position: 15% 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .blogread-discover {
+    flex-direction: column;
+  }
+  .blogread {
+    width: 80%;
+    order: 2;
+  }
+  .sec {
+    order: 2;
+    position: static;
+    width: 80%;
+    height: auto;
+  }
 }

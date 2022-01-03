@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
     rel="stylesheet">
+    <link rel="icon" href="/medium_web/static/image/logo.jpg">
     <link rel="stylesheet" href="/static/view_post.css">
     <title>{{post[1]}}</title>
 </head>
@@ -15,9 +16,11 @@
     <main>
             <div class="title" >{{post[1]}}<br></div>
             <div class="desc">{{post[2]}}</div>
+            {% if img %}
             <div class="imag">
               <img class="imag" src="data:;base64,{{img}}" alt="image">
             </div>
+            {%endif%}
             <div class="info">{{post[3]}}<br></div>
 
 
@@ -27,7 +30,7 @@
                     <div class="like"><span class="material-icons">favorite_border</span></div>
                   </a>
               {%if id == post[5]%}
-              <a href="/views/delete-post/{{post[0]}}">
+              <a href="/delete_post/{{post[0]}}">
                 <div class="delete"><span class="material-icons">remove_circle_outline</span></div>
             </a>
               {% endif %}
@@ -35,7 +38,7 @@
            
               
             
-            <form action="/views/create_comment/{{id}}/{{post[0]}}" method="POST">
+            <form action="/comment/{{id}}/{{post[0]}}" method="POST">
                   <input type="text" id="text" name="cmmt" placeholder="comment">
                   <button class="cmmt_btn" type="submit">Comment</button>
             </form>

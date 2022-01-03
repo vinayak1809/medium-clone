@@ -45,7 +45,7 @@ main {
 }
 
 .main-sec textarea {
-  width: 600px;
+  width: 700px;
   resize: none;
   margin-bottom: 10px;
   padding: 10px 10px 0px 10px;
@@ -53,19 +53,18 @@ main {
   border: none;
   border-left: 1px solid rgba(0, 0, 0, 0.233);
   outline: none;
-  white-space: pre-wrap;
 }
 .main-sec .title textarea {
   font-size: 1.5rem;
 }
 .main-sec .description textarea {
   font-size: 1rem;
-  flex-grow: 0;
   overflow: hidden;
 }
 
 .main-sec .info textarea {
-  font-size: 1rem;
+  font-size: 20px;
+  overflow: hidden;
 }
 .main-sec .image button {
   width: 50px;
@@ -94,4 +93,7 @@ main {
   font-size: 50px;
   height: 50px;
   box-shadow: 0 4px 12px 0 rgb(0 0 0 / 5%);
+}
+.more .more_tag {
+  display: none;
 }

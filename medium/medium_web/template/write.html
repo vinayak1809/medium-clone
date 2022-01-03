@@ -18,13 +18,24 @@
                 <div>Draft</div>
             </div>
             <div class="options">
+                
 <!--                 
                 <div class="option publish">
                     <a href="#"><button type="submit">Publish</button></a>
                 </div> -->
-                <div class="option more"><span class="material-icons">
-                    more_horiz
-                    </span></div>
+                <div class="option more">
+                    <button  onclick="show()" ><span  class="material-icons">more_horiz</span></button>
+                    <div id="more" class="more_tag">
+
+                        <a><button type="submit" ">sport</button></a>
+                        <button></button>
+                    </div>
+                </div>
+                <script>
+                    function show() {
+  document.getElementById('more').style.display = "block";
+}
+                </script>
                 <div class="option notificatin"><span class="material-icons">
                     notifications
                     </span></div>
@@ -36,12 +47,12 @@
     <!-- main Section -->
     <main>
         <div class="main-sec">
-            <form action="/write_blog" method="POST" enctype="multipart/form-data">
-                <div class="option title"><textarea name="title" id="" placeholder="Title" required></textarea></div>
-                <div class="option description"><textarea name="description" id="" placeholder="Describe your story.." required></textarea></div>
-                <div class="option info"><textarea wrap="on" name="info" id="body" placeholder="Tell us your story.." required></textarea></div>
+            <form id="prospects_form" action="/{{user_id}}/write_blog" method="POST" enctype="multipart/form-data">
+                <div class="option title"><textarea name="title" placeholder="Title" required></textarea></div>
+                <div class="option description"><textarea name="description"  placeholder="Describe your story.." required></textarea></div>
+                <div class="option info"><textarea name="info" id="grow" placeholder="Tell us your story.." required></textarea></div>
                 <div class="option imag">
-                    <input type="file" class="upload" name="image" required/>
+                    <input type="file" class="upload" name="image" />
                 </div>
 
                 <div class="option publish"><a href="#"><button type="submit">Publish</button></a></div>
@@ -49,13 +60,34 @@
         </div>
     </main>
     <script type="text/javascript">
-        textarea = document.querySelector("#body"); 
+        textarea = document.querySelector("#grow"); 
         textarea.addEventListener('input', autoResize, false); 
       
         function autoResize() { 
             this.style.height = 'auto'; 
             this.style.height = this.scrollHeight + 'px'; 
         }
+
+        $("#prospects_form").submit(function(e) {
+        e.preventDefault();
+        });
+
+        
+//         function postData() {
+//    $.ajax({
+//       type: "POST",
+//       url: "/sport",
+//       contentType: "application/json",
+//       data: JSON.stringify(getSelected()),
+//       dataType: "json",
+//       success: function(response) {
+//          console.log(response);
+//       },
+//       error: function(err) {
+//          console.log(err);
+//       }
+//    })
+// }
     </script>
       
       

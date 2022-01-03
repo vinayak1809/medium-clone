@@ -19,149 +19,100 @@
                 <li><span class="material-icons">notifications</span></li>
                 <li><span class="material-icons">bookmarks</span></li>
                 <li><span class="material-icons">auto_stories</span></li>
-                <a href="/write_blog"><li><span class="material-icons">edit_note</span></li></a>
+                <a href="/{{id}}/write_blog"><li><span class="material-icons">edit_note</span></li></a>
             </ul>
             <div class="user_button">
                 <div class="a"><a href="/signout">signout</a></div>
-                <button>p</button>
+                <button>V</button>
             </div>
             
         </div>
     </nav>
     <main>
+        <aside class="left">
         <div class="keepup"> 
             <a href="">
                 <button>+</button>Keep up with the latest in any topic
             </a>
         </div>
         <div class="follow">
-            <button>py</button>
+            <button>PY</button>
+            <button>CR</button>
         </div>
-        <div class="remmond">recommended</div>
-        {% for post in posts %}
-        {{post[0]}}
-        {% endfor %}
-        <div class="blog">
-            <div class="blogs">
-                <h2>Author name</h2>
-                <h6>Blog name</h6>
-                <p>description</p>
-                <p>date</p>
+        <div class="recommend">Recommended</div>
+        <hr class="recommend_hr">
+        <div class="blogread">
+            {% for post in posts %}
+            
+            <div class="blog">
+                <div class="blogs">
+                    <div class="author">{% for i in user_info_author%}   
+                        {% if i[0] == post[5] %}
+                            {{ i[3]}}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <a target="_blank" href="/view_post/{{post[1]}}"><div class="title"><p>{{post[1]}}</p></div></a>
+                    <div class="desc">{{post[2]}}</div>
+                    <div class="more">
+                        
+                        <div class="blog_more blog_more_left ">
+                            <span>{{post[7]}}</span>
+                            <span>8 min read</span>
+                            <span>tag</span>
+                        </div>
+                      
+                        {%if post[0] in li %}   
+                            <a href="/like_post/{{post[0]}}">
+                              <div class="blog_more_sec blog_more_right">
+                                  <span class="material-icons">
+                                bookmark
+                                </span>
+                            </div>
+                            </a>
+                        {% else %}
+                            <a href="/like_post/{{post[0]}}">
+                              <div class="blog_more_sec blog_more_right">
+                                  <span class="material-icons">
+                                bookmark_border
+                                </span>
+                            </div>
+                          </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="blog-image">
+                    {%for a,b in img_dic.items()%}
+                    {% if b %}
+                        {%if post[0] == a%}
+                        
+                        <img class="blog-img" src="data:;base64,{{b}}" alt="image">
+                        {%endif%}
+                    {%else%}
+                        image not found
+                    {%endif%}
+                    {%endfor%}
+                </div>
             </div>
-            <div class="blog-img">
-                <img src="" alt="">
-                img
+            <hr class="recommend_hr ">
+            {% endfor %}
             </div>
-        </div>
-        <div class="blog">
-            <div class="blogs">
-                <h2>Author name</h2>
-                <h6>Blog name</h6>
-                <p>description</p>
-                <p>date</p>
-            </div>
-            <div class="blog-img">
-                <img src="" alt="">
-                img
-            </div>
-        </div>
-        <div class="blog">
-            <div class="blogs">
-                <h2>Author name</h2>
-                <h6>Blog name</h6>
-                <p>description</p>
-                <p>date</p>
-            </div>
-            <div class="blog-img">
-                <img src="" alt="">
-                img
-            </div>
-        </div>
-        <div class="blog">
-            <div class="blogs">
-                <h2>Author name</h2>
-                <h6>Blog name</h6>
-                <p>description</p>
-                <p>date</p>
-            </div>
-            <div class="blog-img">
-                <img src="" alt="">
-                img
-            </div>
-        </div>
-
-        <div class="blog">
-            <div class="blogs">
-                <h2>Author name</h2>
-                <h6>Blog name</h6>
-                <p>description</p>
-                <p>date</p>
-            </div>
-            <div class="blog-img">
-                <img src="" alt="">
-                img
-            </div>
-        </div>
-        <div class="blog">
-            <div class="blogs">
-                <h2>Author name</h2>
-                <h6>Blog name</h6>
-                <p>description</p>
-                <p>date</p>
-            </div>
-            <div class="blog-img">
-                <img src="" alt="">
-                img
-            </div>
-        </div>
-       
-        <div class="blog">
-            <div class="blogs">
-                <h2>Author name</h2>
-                <h6>Blog name</h6>
-                <p>description</p>
-                <p>date</p>
-            </div>
-            <div class="blog-img">
-                <img src="" alt="">
-                img
-            </div>
-        </div> <div class="blog">
-            <div class="blogs">
-                <h2>Author name</h2>
-                <h6>Blog name</h6>
-                <p>description</p>
-                <p>date</p>
-            </div>
-            <div class="blog-img">
-                <img src="" alt="">
-                img
-            </div>
-        </div> <div class="blog">
-            <div class="blogs">
-                <h2>Author name</h2>
-                <h6>Blog name</h6>
-                <p>description</p>
-                <p>date</p>
-            </div>
-            <div class="blog-img">
-                <img src="" alt="">
-                img
-            </div>
-        </div>
-       
+        
        <div></div>
-    </main>
-    <aside>
-        <div><button>Upgrade</button></div>
+    </aside>
+    <hr id="between">
+
+    <aside class="right">
+        <div class="upgrade"><button>Upgrade</button></div>
         <div class="search">
-            <button>search</button>
+            <span class="material-icons">search</span>
             <textarea name="" id="" placeholder="Search"></textarea>
         </div>
         <div class="recommend-topic">Recommended topics</div>
         <div class="to-follow">Who to Follow</div>
         
     </aside>
+    </main>
     </section>
 </body>
 </html>
