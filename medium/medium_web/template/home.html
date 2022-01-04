@@ -1,3 +1,5 @@
+{% from "base.html" import displayRelation %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +21,7 @@
                 <li><span class="material-icons">notifications</span></li>
                 <li><span class="material-icons">bookmarks</span></li>
                 <li><span class="material-icons">auto_stories</span></li>
-                <a href="/{{id}}/write_blog"><li><span class="material-icons">edit_note</span></li></a>
+                <a href="/{{id}}/write_blg"><li><span class="material-icons">edit_note</span></li></a>
             </ul>
             <div class="user_button">
                 <div class="a"><a href="/signout">signout</a></div>
@@ -40,7 +42,9 @@
             <button>CR</button>
         </div>
         <div class="recommend">Recommended</div>
+    
         <hr class="recommend_hr">
+        
         <div class="blogread">
             {% for post in posts %}
             
@@ -103,13 +107,14 @@
     <hr id="between">
 
     <aside class="right">
-        <div class="upgrade"><button>Upgrade</button></div>
+        <div class="upgrade"><a href="/{{id}}/update_profile"><button>Upgrade</button></a></div>
         <div class="search">
             <span class="material-icons">search</span>
             <textarea name="" id="" placeholder="Search"></textarea>
         </div>
         <div class="recommend-topic">Recommended topics</div>
-        <div class="to-follow">Who to Follow</div>
+        <!-- {#displayRelation(li)#} -->
+        <div class="to-follow">{{"Who to Follow"|make_caps}}</div>
         
     </aside>
     </main>

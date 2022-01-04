@@ -3,7 +3,8 @@ from flask import Blueprint, app, request, session, render_template
 from flask.helpers import url_for
 from werkzeug.utils import redirect
 from medium_web import mysql
-from .auth import login_required
+from .auth import login_required, img as imag, post as ps, user as us
+
 from base64 import b64encode
 from datetime import date
 
@@ -53,13 +54,8 @@ def view_post(post_title):
         cur.execute("SELECT * FROM comment ")
         com = cur.fetchall()
 
-        cur.execute("SELECT * FROM User ")
-        user = cur.fetchall()
-        mysql.connection.commit()
-        cur.close()
-
         return render_template(
-            "view_post.html", post=post, id=id, comments=com, user=user, img=image
+            "view_post.html", post=post, id=id, comments=com, user=us(), img=image
         )
 
     except TypeError:
@@ -72,7 +68,7 @@ def view_post(post_title):
         cur.close()
 
         return render_template(
-            "view_post.html", post=post, id=id, comments=com, user=user
+            "view_post.html", post=post, id=id, comments=com, user=us()
         )
 
 
@@ -136,3 +132,17 @@ def delete_post(post_id):
     cursor.close()
 
     return redirect(url_for("auth.home", user_id=session["id"]))
+
+
+@view.route("/<id>/update_profile", methods=["POST", "GET"])
+def update_profile(id):
+    if request.method == "POST":
+        about = request.form["about"]
+        cursor = mysql.connection.cursor()
+        cursor.execute("UPDATE User SET about=%s WHERE id= %s", [about, id])
+        mysql.connection.commit()
+        cursor.close()
+
+        return redirect(url_for("auth.home", user_id=id))
+
+    return render_template("update_profile.html", id=id)

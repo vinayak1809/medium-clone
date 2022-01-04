@@ -26,8 +26,31 @@ content %}
         <input type="text" name="username" placeholder="Username Name" maxlength="7" required>
         <input type="password" name="password1" placeholder="Password" required>
         <input type="Password" name="password2" placeholder="Confirm Password" required>
-        <button onclick="myFunction()">SignUp</button>
         
+        <button onclick="myFunction()">SignUp</button>
+        {% with messages =get_flashed_messages(with_categories=true) %}
+                
+                {% for category,message in messages %} 
+                {% if category ==
+                    'error' %}
+                <script>
+                    function myFunction(){
+                        alert("{{message}}")
+                    }
+                </script>
+                {% elif category ==
+                    'success' %}
+                <script>
+                    function myFunction(){
+                        alert("{{message}}")
+                    }
+                </script>
+        {%endif%}
+        
+                {%endfor%}
+                
+                
+        {%endwith%}
     </form>
     </div>
     <div class="form-container sign-in-container">
@@ -38,31 +61,13 @@ content %}
             <a href="#" class="social"><i class="fa fa-google"></i></a>
             <a href="#" class="social"><i class="fa fa-linkedin"></i></a>
         </div>
-        <span>or use your account</span>  <div>
+        <span>or use your account</span>  
                   
         <input type="email" name="email" placeholder="Email">
         <input type="password" name="password" placeholder="Password">
         <a href="#">Sign In to explore</a>
         <button onclick="myFunction()" >Sign In</button>
         
-        {% with messages = get_flashed_messages(with_categories=true) %} {% if
-            messages %} {% for category, message in messages %} {% if category ==
-            'error' %}
-            <script>
-            function myFunction() {
-            alert("{{ message }}");
-            }
-            </script>
-
-        {% elif category ==
-            'success' %}
-            <script>
-                function myFunction() {
-                  alert("{{ message }}");
-                }
-            </script>
-
-        {% endif %} {% endfor %} {% endif %} {% endwith %}</div>
         </form>
     </div>
     <div class="overlay-container">
@@ -75,7 +80,10 @@ content %}
             <div class="overlay-panel overlay-right">
                 <h1>Hello, Friend!</h1>
                 <p>Enter your details and start journey with us</p>
+                
                 <button class="ghost" id="signUp">Sign Up</button>
+               
+
             </div>
         </div>
     </div>

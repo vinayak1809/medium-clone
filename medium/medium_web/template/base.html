@@ -24,7 +24,7 @@
                 <li class="option option1">Our Story</li>
                 <li class="option option2">Membership</li>
                 <a href="/write_blog"><li class="option option3">Write</li></a>
-                <a href="/login"><li class="option option4">Sign In</li></a>
+                <a href="/sign_up"><li class="option option4">Sign In</li></a>
                 <li class="option option5"><button> Get started</button></li>
             </ul>
         </div>
@@ -85,8 +85,14 @@
                <div class="tags"> 
                    {% for i in li %}
                    <button>{{i}}</button>
-                   {%endfor%}
-                   
+                   {% endfor %}
+
+<!-- 
+                {% macro displayRelation(li) %}
+                {% for i in li %}
+                <button>{{i}}</button>
+                {% endfor %}
+             {% endmacro %} -->
                </div>
                <hr class="foot_hr">
                <div class="foot">

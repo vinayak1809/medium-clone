@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/update_profile.css">
+    <title>Update {{username}}'s Profile</title>
+</head>
+<body>
+    <a href="/home"><div class="back"><</div></a>
+    <h3>Update {{username}}'s Profile</h3>
+    <form action="/{{id}}/update_profile" method="POST" enctype="multipart/form-data" >
+        <div class="filewrap ">
+            <span>+</span>
+            <input  type="file" class="upload" name="image" />
+        </div>
+
+        <div class="option">
+            <input type="password" name="password" placeholder="New Password">
+        </div>
+
+        <div class="option">
+            <input type="password" id="" name="confirm_password" placeholder="Confirm Password">
+        </div>
+
+        <div class="option">
+            <input type="text" name="about" placeholder="About"></div>
+
+        <div class="option"> 
+            <input type="date" id="birthday" name="birthday">
+        </div>
+       
+        <div class="option ">
+            <button type="submit" >Update</button>
+        </div>
+    </form>
+    
+</body>
+</html>
