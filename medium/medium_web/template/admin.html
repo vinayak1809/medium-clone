@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/admin.css" />
+    <title>Admin</title>
+  </head>
+  <body>
+    <section class="user">
+      <table>
+            <tr>
+                <form action="/admin" method="POST">
+                    email search<input name="email_search" type="text">
+                    <button type="submit">search</button>
+                </form>
+                <form action="/admin" method="POST">
+                    Username search<input name="username_search" type="text">
+                    <button type="submit">search</button>
+                </form>
+            
+                <th>id</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Date</th>
+                <th>Image</th>
+                <th>About</th>
+            </tr>
+        {% for user in users %}
+            <tr>
+            <td><input type="radio" name="drone" >{{ user[0] }}</td>
+            <td>{{ user[1] }}</td>
+            <td>{{ user[3] }}</td>
+            <td>{{ user[4] }}</td>
+            <td>img</td>
+            <td>{{ user[6] }}</td>
+            <td>
+                <a href="/delete_acc/{{user[0]}}"
+                ><span class="material-icons">remove_circle_outline</span></a
+                >
+            </td>
+            <td>
+                <div id="more">
+                    <a href="/email_user/{{user[0]}}"
+                    ><button style="width: 100px">email the reason</button></a
+                    >
+                </div>
+            </td>
+            </tr>
+        {% endfor %}
+      </table>
+    </section>
+
+    <section class="post">
+      <table>
+            <tr>
+                <form action="/admin" method="POST">
+                    search post by user id<input name="search_user_id" type="text">
+                    <button type="submit">search</button>
+                </form>
+                <th>id</th>
+                <th>title</th>
+                <th>description</th>
+                <th>info</th>
+                <th>author</th>
+                <th>user_id</th>
+                <th>img</th>
+                <th>date</th>
+                <th>reported post</th>
+            </tr>
+        {% for post in posts %}
+            <tr>
+                <td><a href="/view_post/{{post[1]}}">{{post[0]}}</a></td>
+                <td>{{post[1]}}</td>
+                <td>{{post[2]}}</td>
+                <td>{{post[3]}}</td>
+                <td>{{post[4]}}</td>
+                <td>{{post[5]}}</td>
+                <td>img</td>
+                <td>{{post[7]}}</td>
+                <td>
+                    {% for i in report %}
+                        {% if i == post[0] %}
+                            reported
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    <button onclick="display()">
+                        <span class="material-icons">remove_circle_outline</span>
+                    </button>
+
+                    <div id="more">
+                        <a href="/email_re/{{post[0]}}">
+                            <button style="width: 100px">email the reason</button>
+                        </a>
+                    </div>
+                </td>
+                <script>
+                    function display() {
+                    var x = document.getElementById("more");
+
+                    if (x.style.display !== "none") {
+                        x.style.display = "none";
+                    } else {
+                        x.style.display = "block";
+                    }
+                    }
+                </script>
+            </tr>
+
+        {% endfor %}
+      </table>
+    </section>
+  </body>
+</html>

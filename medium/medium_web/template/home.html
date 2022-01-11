@@ -7,9 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/home.css">
+    <link rel="icon" href="/static/image/logo.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
     rel="stylesheet">
-    <title>Home(After login)</title>
+    <title>Home</title>
 </head>
 <body>
     <section class="whole-section">
@@ -21,7 +22,7 @@
                 <li><span class="material-icons">notifications</span></li>
                 <li><span class="material-icons">bookmarks</span></li>
                 <li><span class="material-icons">auto_stories</span></li>
-                <a href="/{{id}}/write_blg"><li><span class="material-icons">edit_note</span></li></a>
+                <a href="/{{id}}/write_blog"><li><span class="material-icons">edit_note</span></li></a>
             </ul>
             <div class="user_button">
                 <div class="a"><a href="/signout">signout</a></div>
@@ -67,7 +68,7 @@
                         </div>
                       
                         {%if post[0] in li %}   
-                            <a href="/like_post/{{post[0]}}">
+                            <a type='button' href="/like_post/{{post[0]}}" /> 
                               <div class="blog_more_sec blog_more_right">
                                   <span class="material-icons">
                                 bookmark

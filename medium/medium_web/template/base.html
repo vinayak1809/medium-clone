@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="icon" href="/static/image/logo.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
@@ -12,6 +11,29 @@
     <title>Medium</title>
 </head>
 <body>
+    <!-- chat section -->
+    <div class="chat">
+        <button onclick="display()" >
+            <span  class="material-icons">chat</span>
+        </button>
+
+        <div id="more">
+            <h6>jj</h6>
+        </div>
+    </div>
+
+    <script>
+        function display(){
+          var x = document.getElementById("more");
+
+          if (x.style.display !== 'none'){
+            x.style.display = "none";
+          }
+          else{
+            x.style.display = "block"
+          }
+        }
+        </script>
     <!-- navbar section start -->
     <nav>
     <div class="navbar">
@@ -24,13 +46,15 @@
                 <li class="option option1">Our Story</li>
                 <li class="option option2">Membership</li>
                 <a href="/write_blog"><li class="option option3">Write</li></a>
-                <a href="/sign_up"><li class="option option4">Sign In</li></a>
+                <a href="/login"><li class="option option4">Sign In</li></a>
                 <li class="option option5"><button> Get started</button></li>
             </ul>
         </div>
         </div>
     </nav>
     <!-- navbar section end-->
+
+
 
     <!-- header section start -->
     <header>
@@ -169,5 +193,6 @@
     
     </section>
     <!-- header section end -->
+
 </body>
 </html>

@@ -1,0 +1,42 @@
+* {
+  padding: 0%;
+  margin: 0%;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: burlywood;
+}
+
+/* user table */
+.user {
+  margin: auto;
+  width: 100%;
+}
+table,
+th,
+td {
+  border: 1px solid black;
+  margin: 50px auto;
+  border-collapse: collapse;
+}
+
+th {
+  height: 50px;
+  min-width: 100px;
+}
+
+/* post table */
+.post table tr td {
+  max-width: 100px;
+  max-height: 50px;
+  width: 100px;
+  height: 50px;
+  padding: 10px;
+  overflow: hidden;
+  word-wrap: normal;
+  white-space: nowrap; /* CSS3 */
+}
+.more {
+  display: none;
+}

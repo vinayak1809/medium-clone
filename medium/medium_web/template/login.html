@@ -26,31 +26,20 @@ content %}
         <input type="text" name="username" placeholder="Username Name" maxlength="7" required>
         <input type="password" name="password1" placeholder="Password" required>
         <input type="Password" name="password2" placeholder="Confirm Password" required>
-        
+        {% with messages = get_flashed_messages(with_categories = True) %}
+
+            {% if messages %}
+                {% for category,message in messages %}
+                    <script>
+                    alert("{{message}}")
+                    </script>
+                {% endfor %}
+            {% endif %}
+
+        {% endwith %}
+
         <button onclick="myFunction()">SignUp</button>
-        {% with messages =get_flashed_messages(with_categories=true) %}
-                
-                {% for category,message in messages %} 
-                {% if category ==
-                    'error' %}
-                <script>
-                    function myFunction(){
-                        alert("{{message}}")
-                    }
-                </script>
-                {% elif category ==
-                    'success' %}
-                <script>
-                    function myFunction(){
-                        alert("{{message}}")
-                    }
-                </script>
-        {%endif%}
-        
-                {%endfor%}
-                
-                
-        {%endwith%}
+      
     </form>
     </div>
     <div class="form-container sign-in-container">
@@ -63,10 +52,10 @@ content %}
         </div>
         <span>or use your account</span>  
                   
-        <input type="email" name="email" placeholder="Email">
+        <input type="" name="email" placeholder="Email">
         <input type="password" name="password" placeholder="Password">
         <a href="#">Sign In to explore</a>
-        <button onclick="myFunction()" >Sign In</button>
+        <button >Sign In</button>
         
         </form>
     </div>

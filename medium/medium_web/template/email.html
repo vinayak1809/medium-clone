@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email</title>
+</head>
+<body>
+    {% if post %}
+        <form action="/admin" method="POST">
+            post title <textarea name="title" id="title">{{ post[0][1] }}</textarea>
+            email<textarea name="email" id="email" placeholder="{{ user[0][1] }}">{{ user_post[0][1] }}</textarea>
+            message <textarea name="message" id="message"></textarea> 
+            Subject <textarea name="subject" id="subject"></textarea>
+            <button type="submit">submit/delete</button>
+        </form>
+
+    {% elif user %}
+        <form action="/admin" method="POST">
+            post title <textarea name="title" id="title">title</textarea>
+            email<textarea name="email" id="email" placeholder="{{ user[0][1] }}">{{ user[1] }}</textarea>
+            message <textarea name="message" id="message"></textarea> 
+            Subject <textarea name="subject" id="subject"></textarea>
+            <button type="submit">submit/delete</button>
+        </form>
+    {% endif %}
+    
+</body>
+</html>

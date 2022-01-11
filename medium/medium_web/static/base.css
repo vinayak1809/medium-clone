@@ -8,6 +8,35 @@
 body {
   overflow-x: hidden;
 }
+/* chat section */
+.chat button {
+  position: fixed;
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 0%;
+  border: none;
+  background-color: blue;
+  right: 50px;
+  bottom: 50px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  z-index: 1;
+  box-sizing: border-box;
+  margin: auto;
+}
+
+.chat #more {
+  position: fixed;
+  right: 50px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: none;
+  background-color: burlywood;
+  width: 300px;
+  height: 400px;
+  z-index: 1;
+  bottom: 110px;
+}
+/* navbar section */
 .navbar,
 .web-name,
 .options ul,
@@ -277,6 +306,7 @@ main {
   height: 150px;
   object-position: 15% 100%;
 }
+/* chat section */
 
 @media screen and (max-width: 768px) {
   .blogread-discover {

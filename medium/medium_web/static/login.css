@@ -225,3 +225,8 @@ input {
   height: 40px;
   width: 40px;
 }
+
+alert-error {
+  background-color: red;
+  color: white;
+}

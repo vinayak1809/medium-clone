@@ -14,63 +14,67 @@
 <body>
     
     <main>
-            <div class="title" >{{post[1]}}<br></div>
-            <div class="desc">{{post[2]}}</div>
+        <div class="title" >{{post[1]}}<br></div>
+        <div class="desc">{{post[2]}}</div>
             {% if img %}
-            <div class="imag">
-              <img class="imag" src="data:;base64,{{img}}" alt="image">
-            </div>
+                <div class="imag">
+                  <img class="imag" src="data:;base64,{{img}}" alt="image">
+                </div>
             {%endif%}
-            <div class="info">{{post[3]}}<br></div>
+        <div class="info">{{post[3]}}<br></div>
 
-
-            <div class="blog_user">
-                  <div class="like_count">{{ post.likes|length}}</div>
-                  <a href="/like-post">
-                    <div class="like"><span class="material-icons">favorite_border</span></div>
-                  </a>
-              {%if id == post[5]%}
-              <a href="/delete_post/{{post[0]}}">
-                <div class="delete"><span class="material-icons">remove_circle_outline</span></div>
+        <div class="blog_user">
+            <div class="like_count">{{ post.likes|length}}</div>
+            <a href="/like-post">
+              <div class="like"><span class="material-icons">favorite_border</span></div>
             </a>
-              {% endif %}
-            </div>  
-           
-              
-            
-            <form action="/comment/{{id}}/{{post[0]}}" method="POST">
-                  <input type="text" id="text" name="cmmt" placeholder="comment">
-                  <button class="cmmt_btn" type="submit">Comment</button>
-            </form>
-            
-              {% for comment in comments %} 
-              {% if comment[4] == post[0] %}
-            <div class="view_cmmt">
-              <div class="view_cmmt1">
-              {{comment[1]}}   
-
-                {% if id == comment[3]  %}
-                  <a class="delete_icon" href="/delete-comment/{{comment.id}}">
-                    <span class="material-icons">
-                      delete
-                    </span></a>
-                {% endif %}
-                
-              </div>
-              {% for users in user %}
-                
-              {% if users[0] == comment[3] %}
-              <div class="view_cmmt2">
-                  {{users[3]}}
-              </div>
-              {% endif %}
-              {% endfor %}
-            </div>
+            {%if id == post[5] or "admin" in session %}
+                <a href="/delete_post/{{post[0]}}">
+                  <div class="delete"><span class="material-icons">remove_circle_outline</span></div>
+                </a>
             {% endif %}
-            {%endfor%}
             
-                 
-              <br/>
+        </div> 
+
+        {% if "admin" not in session %}   
+        <form action="/comment/{{id}}/{{post[0]}}" method="POST">
+              <input type="text" id="text" name="cmmt" placeholder="comment">
+              <button class="cmmt_btn" type="submit">Comment</button>
+        </form>
+        {% endif %}   
+            
+        {% for comment in comments %} 
+            {% if comment[4] == post[0] %}
+              <div class="view_cmmt">
+                  <div class="view_cmmt1">
+                      {{comment[1]}}   
+                      {% if id == comment[3] or "admin" in session %}
+                        <a class="delete_icon" href="/delete_comment/{{post[1]}}/{{comment[0]}}">
+                          <span class="material-icons">
+                            delete
+                          </span>
+                        </a>
+                      {% endif %}
+                  </div>
+
+                  {% for users in user %}
+                      {% if users[0] == comment[3] %}
+                          <div class="view_cmmt2">
+                              {{users[3]}}
+                          </div>
+                      {% endif %}
+                  {% endfor %}
+              </div>
+            {% endif %}
+        {%endfor%}
+        <div>
+          {%if "admin" not in session %}
+          <a href="/report/{{post[0]}}">
+            <span class="material-icons">report</span>
+          </a>
+          {%endif%}
+        </div>
+        <br/>
     </main>   
             
 </body>
