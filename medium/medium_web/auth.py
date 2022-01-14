@@ -1,18 +1,17 @@
-import re
-from flask import Blueprint, app, request, session, render_template, flash, g, wrappers
-from functools import wraps
-from PIL import Image
 
-from flask.ctx import AppContext
-from flask.helpers import url_for
-from flask.json.tag import PassDict
-from werkzeug.utils import redirect
+from flask import Blueprint, request, session, render_template, flash, g, url_for, redirect
+from functools import wraps
 from medium_web import mysql, mail
-from flask_mail import Mail, Message
+from flask_mail import Message
 from datetime import date
 
+import jwt
 from werkzeug.security import generate_password_hash, check_password_hash
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from base64 import b64encode
+from medium_web import app
+
+s = URLSafeTimedSerializer('thats_a secret')
 
 auth = Blueprint("auth", __name__, template_folder="template")
 
@@ -34,7 +33,6 @@ def login_required(f):
 @auth.app_template_filter("make_caps")
 def caps(text):
     texts = str(text)
-
     return texts.casefold()
 
 
@@ -44,7 +42,8 @@ def img():
     posts = cursorr.fetchall()
 
     img_dic = {
-        posts[i][0]: b64encode(posts[i][6]).decode("utf-8") if posts[i][6] else " "
+        posts[i][0]: b64encode(posts[i][6]).decode(
+            "utf-8") if posts[i][6] else " "
         for i in range(0, len(posts))
     }
 
@@ -116,7 +115,7 @@ def base():
         )
 
     else:
-        return redirect(url_for("auth.home", user_id=session["id"]))
+        return redirect(url_for("auth.home", user_id=g.user))
 
 
 @auth.route("/sign_up", methods=["GET", "POST"])
@@ -133,7 +132,8 @@ def sign_up():
         cursor.execute("SELECT email FROM User WHERE email= %s", [email])
         email_exists = cursor.fetchall()
 
-        cursor.execute("SELECT username FROM User WHERE username= %s", [username])
+        cursor.execute(
+            "SELECT username FROM User WHERE username= %s", [username])
         username_exists = cursor.fetchall()
         session.pop("_flashes", None)
         if email_exists:
@@ -164,6 +164,25 @@ def sign_up():
 
     return render_template("login.html", signup="Sign Up")
 
+# @auth.route("/login", methods=["GET", "POST"])
+# def login():
+#     if "id" not in session:
+#         if request.method == "POST":
+#             email = request.form["email"]
+#             password = request.form["password"]
+
+#             if email == 'user1@gmail.com':
+
+#                 token = jwt.encode({"user_email": email},
+#                                    app.config['SECRET_KEY'])
+#                 g.user = 1
+#                 session['email'] = token
+#                 print(g.user)
+#                 cur = mysql.connection.cursor()
+#                 cur.execute("SELECT * FROM User WHERE email = %s", (email,))
+#                 return token
+#     return render_template("login.html", signin="Sign In")
+
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
@@ -178,36 +197,40 @@ def login():
             j = cur.fetchone()
             session.pop("_flashes", None)
 
-            if j != None:
+            if j is not None:
                 if j[1][-9:] == "admin.com":
                     session["admin"] = "admin"
                     return redirect(url_for("auth.admin"))
                 if check_password_hash(j[2], password):
                     if j[1] == email and check_password_hash(j[2], password):
-                        id = j[0]
-                        session["id"] = id
+
+                        token = jwt.encode({"username": j[3]},
+                                           app.config['SECRET_KEY'])
+                        session["username"] = token
+                        session["id"] = j[0]
                         mysql.connection.commit()
                         cur.close()
-                        return redirect(url_for("auth.home", user_id=id))
+                        return redirect(url_for("auth.home", user_id=str(session["id"])))
                 else:
                     flash("wrong password", category="error")
-            elif j == None:
+            elif j is None:
                 flash("wrong email", category="error")
 
             return render_template("login.html", signin="Sign In")
 
         return render_template("login.html", signin="Sign In")
-    return redirect(url_for("auth.home", user_id=session["id"]))
+    return redirect(url_for("auth.home", user_id=g.user))
 
 
 @auth.route("/<path:user_id>", methods=["GET", "POST"])
 @login_required
 def home(user_id):
     if "id" in session:
-        if user_id == str(session["id"]):
+        if user_id == g.user:
 
             cursorr = mysql.connection.cursor()
-            cursorr.execute("select * from Likee where user_id_fk=%s", [user_id])
+            cursorr.execute(
+                "select * from favourite where user_id_fk=%s", [user_id])
             like_in = cursorr.fetchall()
             li = [like_in[i][3] for i in range(len(like_in))]
 
@@ -225,35 +248,86 @@ def home(user_id):
 
             else:
                 return redirect(url_for("auth.base"))
-        return redirect(url_for("auth.home", user_id=str(session["id"])))
+        return redirect(url_for("auth.home", user_id=g.user))
     return redirect(url_for("auth.admin"))
+
+
+@auth.route("/forget_password", methods=["POST", "GET"])
+def forget_password():
+    if request.method == "POST":
+        email = request.form.get('email')
+        if email:
+            token = s.dumps(email, salt='email-confirm')
+            msg = Message(
+                "link to change the password",
+                sender="",
+                recipients=[""],  # email
+            )
+            link = url_for('auth.change_password', token=token, external=True)
+            msg.body = 'Your link to change password is : {}'.format(link)
+            mail.send(msg)
+
+            return "link sent to your mail : " + token
+    return render_template("forget_password.html")
+
+
+@auth.route("/change_password/<token>", methods=["POST", "GET"])
+def change_password(token):
+    if request.method == "POST":
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+        try:
+            email = s.loads(token, salt='email-confirm', max_age=60000)
+
+            if len(password) < 6:
+                flash("Password is too short.", category="error")
+            elif password != confirm_password:
+
+                flash("Password don't match!", category="error")
+            else:
+                password = generate_password_hash(password, method="sha256")
+                cursor = mysql.connection.cursor()
+                cursor.execute("UPDATE User SET password = (%s) WHERE email = (%s)", [
+                    password, email])
+                mysql.connection.commit()
+                cursor.close()
+                return redirect(url_for("auth.login"))
+        except SignatureExpired:
+            return "token is expired link not valid", 403
+    return render_template('forget_password.html', token=token)
 
 
 @auth.route("/signout")
 @login_required
 def signout():
+    session.pop("email", None)
     session.pop("id", None)
     return redirect(url_for("auth.base"))
 
 
-# -----------------------------------        admin section        --------------------------------------
+# -------------------------------------         admin section           -------------------------------------
 
 
 @auth.route("/admin", methods=["POST", "GET"])
+@login_required
 def admin():
     cursor = mysql.connection.cursor()
+    # cursor.execute("SELECT * FROM report")
+    # report = cursor.fetchall()
+    # li = [report[i][3] for i in range(len(report))]
+
+    # msg = Message(
+    #     "mail title",
+    #     sender="",
+    #     recipients=[""],
+    # )
+    # msg.body = "Body of the email to send"
+
+    # mail.send(msg)
     cursor.execute("SELECT * FROM report")
     report = cursor.fetchall()
-    li = [report[i][3] for i in range(len(report))]
 
-    msg = Message(
-        "mail title",
-        sender="",
-        recipients=[""],
-    )
-    msg.body = "Body of the email to send"
-
-    mail.send(msg)
+    report_li = [report[i][3] for i in range(len(report))]
 
     if request.method == "POST":
 
@@ -262,7 +336,8 @@ def admin():
         search_user_id = request.form.get("search_user_id")
 
         if email_search:
-            cursor.execute("SELECT * FROM User WHERE email = (%s)", [email_search])
+            cursor.execute(
+                "SELECT * FROM User WHERE email = (%s)", [email_search])
             fetch_email = cursor.fetchall()
             return render_template(
                 "admin.html",
@@ -283,14 +358,15 @@ def admin():
                 users=fetch_username,
             )
         elif search_user_id:
-            cursor.execute("SELECT * FROM postt WHERE user_id = (%s)", [search_user_id])
+            cursor.execute(
+                "SELECT * FROM postt WHERE user_id = (%s)", [search_user_id])
             user_posts = cursor.fetchall()
             return render_template(
                 "admin.html", img=img(), users=user(), posts=user_posts
             )
 
     return render_template(
-        "admin.html", posts=post(), users=user(), img=img(), report=li
+        "admin.html", posts=post(), users=user(), img=img(), report=report_li
     )
 
 
@@ -305,8 +381,8 @@ def admin_signout():
 # def index():
 #     msg = Message(
 #         "mail title",
-#         sender="shindevrcs19@student.mes.ac.in",
-#         recipients=["vinayakrshinde18@gmail.com"],
+#         sender="",
+#         recipients=[""],
 #     )
 #     msg.body = "Body of the email to send"
 
