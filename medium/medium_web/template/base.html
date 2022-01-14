@@ -86,9 +86,9 @@
                 <div class="tflex tflex1">
                     <div class="tflex-left">{{loop.index}}</div>
                     <div class="tflex-right">
-                        <div class="author">{% for i in user_info_author%}   
-                            {% if i[0] == post[5] %}
-                                {{ i[3]}}
+                        <div class="author">{% for user_in in user_info_author%}   
+                            {% if user_in[0] == post[5] %}
+                                {{ user_in[3]}}
                             {% endif %}
                         {% endfor %}</div>
                         <div class="title"><p>{{post[1]}}</p></div>
@@ -107,8 +107,8 @@
             <div class="discover">
                <p style="font-size: 16px;"> DISCOVER MORE OF WHAT MATTERS TO YOU </p>
                <div class="tags"> 
-                   {% for i in li %}
-                   <button>{{i}}</button>
+                   {% for tag in li %}
+                   <button>{{tag}}</button>
                    {% endfor %}
 
 <!-- 
@@ -137,9 +137,9 @@
         
         <div class="blog">
             <div class="blogs">
-                <div class="author">{% for i in user_info_author%}   
-                    {% if i[0] == post[5] %}
-                        {{ i[3]}}
+                <div class="author">{% for user_in in user_info_author%}   
+                    {% if user_in[0] == post[5] %}
+                        {{ user_in[3]}}
                     {% endif %}
                     {% endfor %}
                 </div>

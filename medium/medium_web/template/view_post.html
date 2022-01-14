@@ -24,11 +24,11 @@
         <div class="info">{{post[3]}}<br></div>
 
         <div class="blog_user">
-            <div class="like_count">{{ post.likes|length}}</div>
-            <a href="/like-post">
+            <div class="like_count">{{ like_post|length}}</div>
+            <a href="/like_post/{{post[0]}}">
               <div class="like"><span class="material-icons">favorite_border</span></div>
             </a>
-            {%if id == post[5] or "admin" in session %}
+            {%if id|int == post[5] or "admin" in session %}
                 <a href="/delete_post/{{post[0]}}">
                   <div class="delete"><span class="material-icons">remove_circle_outline</span></div>
                 </a>
@@ -48,7 +48,9 @@
               <div class="view_cmmt">
                   <div class="view_cmmt1">
                       {{comment[1]}}   
-                      {% if id == comment[3] or "admin" in session %}
+
+                      
+                      {% if id|int == comment[3] or id|int == post[5] or "admin" in session %}
                         <a class="delete_icon" href="/delete_comment/{{post[1]}}/{{comment[0]}}">
                           <span class="material-icons">
                             delete
@@ -68,11 +70,11 @@
             {% endif %}
         {%endfor%}
         <div>
-          {%if "admin" not in session %}
-          <a href="/report/{{post[0]}}">
-            <span class="material-icons">report</span>
-          </a>
-          {%endif%}
+            {%if "admin" not in session %}
+              <a href="/report/{{post[0]}}">
+                <span class="material-icons">report</span>
+              </a>
+            {%endif%}
         </div>
         <br/>
     </main>   

@@ -85,8 +85,8 @@
                 <td>img</td>
                 <td>{{post[7]}}</td>
                 <td>
-                    {% for i in report %}
-                        {% if i == post[0] %}
+                    {% for report_loop in report %}
+                        {% if report_loop == post[0] %}
                             reported
                         {% endif %}
                     {% endfor %}
@@ -97,7 +97,7 @@
                     </button>
 
                     <div id="more">
-                        <a href="/email_re/{{post[0]}}">
+                        <a href="/email_post/{{post[0]}}">
                             <button style="width: 100px">email the reason</button>
                         </a>
                     </div>

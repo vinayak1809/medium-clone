@@ -51,9 +51,9 @@
             
             <div class="blog">
                 <div class="blogs">
-                    <div class="author">{% for i in user_info_author%}   
-                        {% if i[0] == post[5] %}
-                            {{ i[3]}}
+                    <div class="author">{% for user_in in user_info_author%}   
+                        {% if user_in[0] == post[5] %}
+                            {{ user_in[3]}}
                         {% endif %}
                         {% endfor %}
                     </div>
@@ -68,7 +68,7 @@
                         </div>
                       
                         {%if post[0] in li %}   
-                            <a type='button' href="/like_post/{{post[0]}}" /> 
+                            <a type='button' href="/fav_post/{{post[0]}}" /> 
                               <div class="blog_more_sec blog_more_right">
                                   <span class="material-icons">
                                 bookmark
@@ -76,7 +76,7 @@
                             </div>
                             </a>
                         {% else %}
-                            <a href="/like_post/{{post[0]}}">
+                            <a href="/fav_post/{{post[0]}}">
                               <div class="blog_more_sec blog_more_right">
                                   <span class="material-icons">
                                 bookmark_border
