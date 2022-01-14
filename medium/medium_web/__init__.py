@@ -1,5 +1,5 @@
-from re import A
-from flask import Flask
+
+from flask import Flask, session, g
 from flask_mysqldb import MySQL
 from flask_mail import Mail
 
@@ -14,6 +14,14 @@ app.config["MAIL_PASSWORD"] = ""
 app.config["MAIL_MAX_EMAILS"] = None
 app.config["MAIL_ASCII_ATTACHMENTS"] = False
 app.config["DEFAULT_MAIL_SENDER"] = ""
+
+
+@app.before_request
+def before_request():
+    if "id" in session:
+        g.user = str(session["id"])
+    else:
+        g.user = None
 
 
 def create_app():
