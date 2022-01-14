@@ -1,14 +1,9 @@
-import re
-from flask import Blueprint, app, request, session, render_template
+
+from flask import Blueprint, request, render_template, g
 from flask.helpers import url_for
 from werkzeug.utils import redirect
-from medium_web import mysql
-from .auth import (
-    login_required,
-    img as imag,
-    post as ps,
-    user as us,
-)
+from medium_web import mysql, mail
+from .auth import login_required, user as us
 from flask_mail import Mail, Message
 
 from base64 import b64encode
@@ -28,7 +23,8 @@ def write_blog(user_id):
         image = request.files["image"]
         img = image.read()
         cur = mysql.connection.cursor()
-        author = cur.execute("SELECT username FROM User WHERE id = %s", [user_id])
+        author = cur.execute(
+            "SELECT username FROM User WHERE id = %s", [user_id])
         today = date.today()
 
         cur = mysql.connection.cursor()
@@ -39,15 +35,14 @@ def write_blog(user_id):
         mysql.connection.commit()
         cur.close()
 
-        return redirect(url_for("auth.home", user_id=session["id"]))
-    return render_template("write.html", user_id=session["id"])
+        return redirect(url_for("auth.home", user_id=g.user))
+    return render_template("write.html", user_id=g.user)
 
 
 @view.route("/view_post/<post_title>", methods=["GET", "POST"])
 @login_required
 def view_post(post_title):
-    if "id" in session:
-        id = session["id"]
+
     post_title.replace("%20", " ")
 
     cur = mysql.connection.cursor()
@@ -55,35 +50,34 @@ def view_post(post_title):
     post = cur.fetchone()
 
     try:
+        cur.execute(
+            "Select * from Like_post where post_id_fk = (%s)", [post[0]])
+        like_post = cur.fetchall()
+    except:
+        like_post = ""
+    try:
         post_img = post[6]
         image = b64encode(post_img).decode("utf-8")
 
-        cur.execute("SELECT * FROM comment ")
+        cur.execute("SELECT * FROM comment WHERE post_id = (%s)", [post[0]])
         com = cur.fetchall()
-        if "id" in session:
-            return render_template(
-                "view_post.html",
-                post=post,
-                id=id,
-                comments=com,
-                user=us(),
-                img=image,
-            )
-        elif "admin" in session:
-            return render_template(
-                "view_post.html",
-                post=post,
-                comments=com,
-                user=us(),
-                img=image,
-            )
+
+        return render_template(
+            "view_post.html",
+            post=post,
+            id=g.user,
+            comments=com,
+            user=us(),
+            img=image,
+            like_post=like_post
+        )
 
     except TypeError:
         cur.execute("SELECT * FROM comment ")
         com = cur.fetchall()
 
         return render_template(
-            "view_post.html", post=post, id=id, comments=com, user=us()
+            "view_post.html", post=post, id=g.user, comments=com, user=us(), like_post=like_post
         )
 
 
@@ -94,9 +88,42 @@ def delete_post(post_id):
     cursor.execute("DELETE FROM postt WHERE id =(%s)", [post_id])
     mysql.connection.commit()
     cursor.close()
-    if "id" in session:
-        return redirect(url_for("auth.home", user_id=session["id"]))
-    return redirect(url_for("auth.admin"))
+
+    return redirect(url_for("auth.home", user_id=g.user))
+
+
+@view.route("/fav_post/<post_id>", methods=["GET"])
+@login_required
+def fav_post(post_id):
+
+    cur = mysql.connection.cursor()
+    cur.execute(
+        "select * from favourite where (post_id_fk = %s and user_id_fk=%s)",
+        (int(post_id), (g.user)),
+    )
+    m = cur.fetchall()
+
+    if m:
+        cur = mysql.connection.cursor()
+        cur.execute(
+            "DELETE from favourite where (post_id_fk = %s and user_id_fk=%s)",
+            (post_id, (g.user)),
+        )
+        mysql.connection.commit()
+        cur.close()
+
+    else:
+        cur = mysql.connection.cursor()
+        cur.execute(
+            "INSERT INTO favourite (user_id_fk,post_id_fk) VALUES(%s,%s)",
+            (g.user, int(post_id)),
+        )
+        mysql.connection.commit()
+        cur.close()
+
+        return redirect(request.referrer)
+
+    return redirect(url_for("auth.home", user_id=g.user))
 
 
 @view.route("/like_post/<post_id>", methods=["GET"])
@@ -105,16 +132,16 @@ def like_post(post_id):
 
     cur = mysql.connection.cursor()
     cur.execute(
-        "select * from Likee where (post_id_fk = %s and user_id_fk=%s)",
-        (int(post_id), (session["id"])),
+        "select * from Like_post where (post_id_fk = %s and user_id_fk=%s)",
+        (int(post_id), (g.user)),
     )
     m = cur.fetchall()
 
     if m:
         cur = mysql.connection.cursor()
         cur.execute(
-            "DELETE from Likee where (post_id_fk = %s and user_id_fk=%s)",
-            (post_id, (session["id"])),
+            "DELETE from Like_post where (post_id_fk = %s and user_id_fk=%s)",
+            (post_id, (g.user)),
         )
         mysql.connection.commit()
         cur.close()
@@ -122,15 +149,13 @@ def like_post(post_id):
     else:
         cur = mysql.connection.cursor()
         cur.execute(
-            "INSERT INTO Likee (user_id_fk,post_id_fk) VALUES(%s,%s)",
-            (session["id"], int(post_id)),
+            "INSERT INTO Like_post (user_id_fk,post_id_fk) VALUES(%s,%s)",
+            (g.user, int(post_id)),
         )
         mysql.connection.commit()
         cur.close()
 
-        return redirect(request.referrer)
-
-    return redirect(url_for("auth.home", user_id=session["id"]))
+    return redirect(request.referrer)
 
 
 @view.route("/comment/<user_id>/<post_id>", methods=["POST", "GET"])
@@ -150,7 +175,7 @@ def comment(user_id, post_id):
 
         return redirect(request.referrer)
 
-    return "ds"
+    return redirect(request.referrer)
 
 
 @view.route("/delete_comment/<post_title>/<cmmt_id>", methods=["POST", "GET"])
@@ -185,18 +210,18 @@ def report(post_id):
     cursor = mysql.connection.cursor()
     cursor.execute(
         "INSERT  into report (user_id_fk,post_id_fk) VALUES(%s,%s)",
-        [session["id"], post_id],
+        [g.user, post_id],
     )
     mysql.connection.commit()
     cursor.close()
 
-    return redirect(url_for("auth.home", user_id=session["id"]))
+    return redirect(url_for("auth.home", user_id=g.user))
 
 
-# -------------------------------------------------------        admin section           ------------------------------------------
+# -------------------------------------         admin section        -------------------------------------
 
 
-@view.route("/email_re/<post_id>")
+@view.route("/email_post/<post_id>", methods=["POST", "GET"])
 def email(post_id):
 
     cursor = mysql.connection.cursor()
@@ -205,19 +230,54 @@ def email(post_id):
 
     cursor.execute("SELECT * from User where id = (%s)", [fetch[0][5]])
     user_fetch = cursor.fetchall()
-    mysql.connection.commit()
-    cursor.close()
 
-    return render_template("email.html", post=fetch, user_post=user_fetch)
+    if request.method == "POST":
+        title = request.form['title']
+        email = request.form['email']
+        msg = request.form['message']
+        subject = request.form['subject']
+
+        print(int(post_id))
+        # msg = Message(
+        #     "post is being delete",
+        #     sender="",
+        #     recipients=[''],
+        # )
+        # msg.body = "Body of the email to send"
+        # mail.send(msg)
+
+        cursor.execute("DELETE FROM postt WHERE id =(%s)", [post_id])
+        mysql.connection.commit()
+        cursor.close()
+
+        return redirect("auth.admin")
+    return render_template("email.html", post=fetch, user_post=user_fetch, post_id=post_id)
 
 
-@view.route("/email_user/<user_id>")
+@view.route("/email_user/<user_id>", methods=["POST", "GET"])
 def email_user(user_id):
 
     cursor = mysql.connection.cursor()
     cursor.execute("Select * FROM User WHERE id = (%s)", [user_id])
     user_info = cursor.fetchall()
-    mysql.connection.commit()
-    cursor.close()
 
+    if request.method == "POST":
+        title = request.form['title']
+        email = request.form['email']
+        msg = request.form['message']
+        subject = request.form['subject']
+
+        msg = Message(
+            "post is being delete",
+            sender="",
+            recipients=[''],
+        )
+        msg.body = "Body of the email to send"
+        mail.send(msg)
+
+        cursor.execute("DELETE FROM User WHERE id =(%s)", [int(user_id)])
+        mysql.connection.commit()
+        cursor.close()
+
+        return redirect(url_for("auth.admin"))
     return render_template("email.html", user=user_info)
