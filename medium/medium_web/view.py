@@ -12,6 +12,23 @@ from datetime import date
 view = Blueprint("view", __name__, template_folder="template")
 
 
+@view.route("/u/<user_profile>", methods=["POST", "GET"])
+@login_required
+def user_profile(user_profile):
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM User WHERE username = (%s)", [user_profile])
+    user_info = cursor.fetchone()
+    mysql.connection.commit()
+    cursor.close()
+
+    img = user_info[5]
+    if img:
+        image = b64encode(img).decode("utf-8")
+        return render_template("user_profile.html", user=user_info, image=image)
+
+    return render_template("user_profile.html", user=user_info)
+
+
 @view.route("/<user_id>/write_blog", methods=["POST", "GET"])
 @login_required
 def write_blog(user_id):
@@ -193,13 +210,23 @@ def delete_comment(post_title, cmmt_id):
 @login_required
 def update_profile(id):
     if request.method == "POST":
-        about = request.form["about"]
+        about = request.form.get("about")
+        image = request.files["image"]
+
         cursor = mysql.connection.cursor()
-        cursor.execute("UPDATE User SET about=%s WHERE id= %s", [about, id])
+        print(image)
+        print(about)
+        if image:
+            img = image.read()
+            cursor.execute("UPDATE User SET user_img = %s, about=%s WHERE id= %s", [
+                img, about, id])
+        else:
+            cursor.execute("UPDATE User SET  about=%s WHERE id= %s", [
+                about, id])
         mysql.connection.commit()
         cursor.close()
 
-        return redirect(url_for("auth.home", user_id=id))
+        return redirect(request.referrer)
 
     return render_template("update_profile.html", id=id)
 
@@ -209,7 +236,7 @@ def update_profile(id):
 def report(post_id):
     cursor = mysql.connection.cursor()
     cursor.execute(
-        "INSERT  into report (user_id_fk,post_id_fk) VALUES(%s,%s)",
+        "INSERT into report (user_id_fk,post_id_fk) VALUES(%s,%s)",
         [g.user, post_id],
     )
     mysql.connection.commit()
@@ -234,23 +261,22 @@ def email(post_id):
     if request.method == "POST":
         title = request.form['title']
         email = request.form['email']
-        msg = request.form['message']
+        message = request.form['message']
         subject = request.form['subject']
 
-        print(int(post_id))
-        # msg = Message(
-        #     "post is being delete",
-        #     sender="",
-        #     recipients=[''],
-        # )
-        # msg.body = "Body of the email to send"
-        # mail.send(msg)
+        msg = Message(
+            title,  # post is being delete ,
+            sender="",
+            recipients=[email],  # receiver email
+        )
+        msg.body = message  # Body of the email to send
+        mail.send(msg)
 
         cursor.execute("DELETE FROM postt WHERE id =(%s)", [post_id])
         mysql.connection.commit()
         cursor.close()
 
-        return redirect("auth.admin")
+        return redirect(url_for("auth.admin"))
     return render_template("email.html", post=fetch, user_post=user_fetch, post_id=post_id)
 
 
@@ -264,15 +290,15 @@ def email_user(user_id):
     if request.method == "POST":
         title = request.form['title']
         email = request.form['email']
-        msg = request.form['message']
+        message = request.form['message']
         subject = request.form['subject']
 
         msg = Message(
-            "post is being delete",
+            title,
             sender="",
-            recipients=[''],
+            recipients=[email]  # email,
         )
-        msg.body = "Body of the email to send"
+        msg.body = message
         mail.send(msg)
 
         cursor.execute("DELETE FROM User WHERE id =(%s)", [int(user_id)])
