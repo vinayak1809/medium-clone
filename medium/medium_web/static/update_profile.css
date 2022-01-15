@@ -1,0 +1,101 @@
+body {
+  background-color: white;
+}
+.back {
+  width: 30px;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 10px 10px 10px 15px;
+  margin: 10px 10px 0px 15px;
+  background-color: #f36147;
+  border-radius: 50px;
+  color: white;
+  box-shadow: 0 4px 12px 0 rgb(0 0 0 / 20%);
+}
+a {
+  text-decoration: none;
+}
+h3 {
+  margin: 30px 500px 50px 500px;
+  padding: 2px 70px;
+  justify-content: center;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px 0 rgb(0 0 0 / 10%);
+}
+form {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  margin: 10px 500px;
+  padding: 50px;
+  background-color: white;
+  box-shadow: 0 4px 12px 0 rgb(0 0 0 / 10%);
+}
+
+.filewrap {
+  position: relative;
+  background: rgb(253, 253, 253);
+  border: 1px;
+  border-radius: 50px;
+  margin: 0px 0px 0px 95px;
+  color: rgba(2, 2, 2, 0.527);
+  font-family: sans-serif;
+  font-size: 50px;
+  padding: 1px 1px 10px 10px;
+  height: 50px;
+  width: 40px;
+  box-shadow: 0 4px 12px 0 rgb(0 0 0 / 3%);
+}
+
+input[type="file"] {
+  width: 100px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.option {
+  display: block;
+  border-radius: 20%;
+  margin: 20px 20px 10px 5px;
+}
+
+button {
+  border-radius: 20px;
+  border: 1px solid #ff4b2b;
+  background-color: #ff4b2b;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 10px 40px;
+  margin: 0px 40px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+button:focus {
+  outline: none;
+}
+
+button.ghost {
+  background-color: transparent;
+  border-color: #ffffff;
+}
+
+input {
+  background-color: #eee;
+  border: none;
+  padding: 12px 15px;
+  margin: 0px 0;
+  width: 100%;
+}
