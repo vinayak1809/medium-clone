@@ -234,6 +234,9 @@ def home(user_id):
             like_in = cursorr.fetchall()
             li = [like_in[i][3] for i in range(len(like_in))]
 
+            cursorr.execute("SELECT * FROM User WHERE id = (%s)", [g.user])
+            current_user = cursorr.fetchall()
+
             # image = b64encode(post_img).decode("utf-8")
 
             if "id" in session:
@@ -241,6 +244,7 @@ def home(user_id):
                     "home.html",
                     posts=post(),
                     user_info_author=user(),
+                    current_user=current_user,
                     id=user_id,
                     li=li,
                     img_dic=img(),
@@ -267,7 +271,7 @@ def forget_password():
             msg.body = 'Your link to change password is : {}'.format(link)
             mail.send(msg)
 
-            return "link sent to your mail : " + token
+            return "link sent to your mail :"
     return render_template("forget_password.html")
 
 
@@ -294,13 +298,13 @@ def change_password(token):
                 return redirect(url_for("auth.login"))
         except SignatureExpired:
             return "token is expired link not valid", 403
-    return render_template('forget_password.html', token=token)
+    return render_template('changepassword.html', token=token)
 
 
 @auth.route("/signout")
 @login_required
 def signout():
-    session.pop("email", None)
+    session.pop("username", None)
     session.pop("id", None)
     return redirect(url_for("auth.base"))
 
@@ -318,7 +322,7 @@ def admin():
 
     # msg = Message(
     #     "mail title",
-    #     sender="",
+    #     sender=",
     #     recipients=[""],
     # )
     # msg.body = "Body of the email to send"
@@ -370,7 +374,7 @@ def admin():
     )
 
 
-@auth.route("/signout")
+@auth.route("/sign_out")
 @login_required
 def admin_signout():
     session.pop("admin", None)
