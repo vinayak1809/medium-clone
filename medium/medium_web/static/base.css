@@ -168,7 +168,9 @@ main {
   width: 300px;
   height: 130px;
 }
-
+.tflex-right a {
+  text-decoration: none;
+}
 .tflex .author,
 .blogs .author {
   font-size: 1rem;
@@ -178,7 +180,9 @@ main {
   font-style: normal;
   font-weight: bold;
   font-family: "Helvetica", arial, sans-serif;
+  color: black;
 }
+
 .tflex span,
 .blogs span {
   font-size: 10px;
