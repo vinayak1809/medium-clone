@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{user[3]}}'s Profile</title>
+</head>
+<body>  
+    <section class="main">
+        <div>Email : {{user[1]}}</div>
+        <div>Username : {{user[3]}}</div>
+        <div>Date account was created : {{user[4]}}</div>
+        <div>User image : <img class="imag" src="data:;base64,{{image}}" alt="image"></div>
+        <div>About User :{{user[6]}}</div>
+    </section>
+    <div>
+        <a href="/signout"><button>signout</button></a>
+    </div>
+    <style>
+        .main{
+            margin: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        .main img{
+            width: 100px;
+            height: 100px;
+        }
+        body >div{
+            margin: 30px;
+        }
+    </style>
+</body>
+</html>

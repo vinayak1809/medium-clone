@@ -13,17 +13,17 @@
             email<textarea name="email" id="email">{{ user_post[0][1] }}</textarea>
             message <textarea name="message" id="message"></textarea> 
             Subject <textarea name="subject" id="subject"></textarea>
-            <button type="submit">submit/delete</button>
+            <button type="submit">send email</button>
         </form>
 
     {% elif user %}
-    {{ user[0][0] }}
+    
         <form action="/email_user/{{ user[0][0] }}" method="POST">
-            post title <textarea name="title" id="title">title</textarea>
+            user title <textarea name="title" id="title">title</textarea>
             email<textarea name="email" id="email" placeholder="{{ user[0][1] }}">{{ user[0][1] }}</textarea>
             message <textarea name="message" id="message"></textarea> 
             Subject <textarea name="subject" id="subject"></textarea>
-            <button type="submit">submit/delete</button>
+            <button type="submit">send email</button>
         </form>
     {% endif %}
     
